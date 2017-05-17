@@ -10,8 +10,6 @@ int factorial(int N) {//팩토리얼
 
 int permu(int numberOfOder, int one, int two, int three) {//같은 것이 있는 순열
 	int result = 0;
-	if (numberOfOder == 0)
-		numberOfOder++;
 	if (one == 0)
 		one++;
 	if (two == 0)
@@ -52,6 +50,8 @@ int TwoThree(int N, int twocount, int threecount) {
 
 int combi(int N) {// 변수가 2와 3이 둘다 있는경우
 	int combi = N;
+	int q = N/5;//몫
+	int r= N%5;//나머지
 	int twoCount=0, threeCount=0, combiCount = 0;
 	int result=0;
 	while (combi > 4) {
@@ -79,4 +79,14 @@ void main() {
 
 
 
+}
+
+void zero(int Q) { //q는 몫
+	int N = Q*2;
+	int one = 0;
+	int two = Q;
+	int three = Q;
+	int result = 0;
+
+	result = permu(int numberOfOder, int one, int two, int three) {//같은 것이 있는 순열
 }
