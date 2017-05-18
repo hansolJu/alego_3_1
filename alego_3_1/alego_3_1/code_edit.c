@@ -22,30 +22,40 @@ int permu(int numberOfOder, int one, int two, int three) {//같은 것이 있는 순열
 
 	return result;
 }
-int TwoThree(int N, int twocount, int threecount) {
-	int two_ = N, three_ = N;
-	int twoCount = twocount, threeCount = threecount;
+
+int socket(int N, int one, int two, int three) {//처리하는 함수
+
 	int result = 0;
 
-
-	//변수가 1과 2로만 구성된경우
-	while (two_ >= 2)
+	result = result + permu(N, one, two, three);//1로만 되있을때
+												//1을 2으로 바꾸면서 계산
+	while (one >= 2)
 	{
-		two_ = two_ - 2;
-		twoCount++;
-		result = result + permu((two_ + twoCount), two_, twoCount, 1);
-
+		one -= 2;
+		two++;
+		N--;
+		result = result + permu(N, one, two, three);
+	}
+	//1을 3으로 바꾸면서 계산
+	while (one >= 3)
+	{
+		one -= 3;
+		three++;
+		N -= 2;
+		result = result + permu(N, one, two, three);
 	}
 
-	//변수가 1과 3으로만 구성된경우
-	while (three_ >= 3)
+	return result;
+}
+
+int carculration(int Q, int R) {// 되풀이 되는 과정을 나타냈습니다.
+	int result = 0;
+	while (Q > 0)
 	{
-		three_ = three_ - 3;
-		threeCount++;
-		result = result + permu((three_ + threeCount), three_, 1, threeCount);
-
+		result = result + socket((Q * 2) + R, R, Q, Q);
+		Q--;
+		R += 5;
 	}
-
 	return result;
 }
 
@@ -53,49 +63,18 @@ int TwoThree(int N, int twocount, int threecount) {
 void main() {
 
 	while (1) {
-		int input=0;
-		int result = 1;
-		int q = 0, r = 0, xtra = 0;
+		int input = 0;
+		int result = 0;
+		int q = 0, r = 0;
+
 		printf("N을 입력해 주세요: ");
 		scanf("%d", &input);
+		printf("\n");
+
 		q = input / 5;
 		r = input % 5;
-		printf("\n");
-		if (q == 0)
-			result = result + TwoThree(input, 0, 0);
-		else
-		{
-			switch (r)
-			{
-			case 0: // 2 3 | 0 , 11111
-				
-				result = result + TwoThree(input, 0, 0);
-				while (q > 0) {
-					result = result + TwoThree((q * 2)+xtra, xtra, q, q);
-					result++;
-					q--;
-					xtra = xtra + 5;
-				}
-					
-					
-				break;
-			case 1:
-				result = result + TwoThree(input, 0, 0) + permu(((q * 2) + 1), 1, q, q); //2 3 | 1
-				break;
-			case 2:
-				result = result + TwoThree(input, 0, 0) + permu((q * 2) + 2, 2, q, q) + permu((q * 2) + 1, 0, q + 1, q);// 2 3 | 11 + 2 3 | 2
-				break;
-			case 3:
-				result = result + TwoThree(input, 0, 0) + permu((q * 2) + 3, 3, q, q) + permu((q * 2) + 2, 1, q + 1, q) + permu((q * 2) + 1, 0, q, q + 1);// 2 3 | 111, 21 , 3
-				break;
-			case 4:
-				result = result + TwoThree(input, 0, 0) + permu((q * 2) + 4, 4, q, q) + permu((q * 2) + 2, 0, q + 2, q) + permu((q * 2) + 2, 1, q, q + 1);;// 2 3 | 1111, 22, 31
-				break;
-			default:
-				break;
-			}
-		}
 		
+		carculration(q, r);
 
 		printf("결과: %d\n", result);
 
